@@ -23,6 +23,7 @@ import dagshub
 mlflow.set_tracking_uri('https://dagshub.com/pranaynikhare7/mlops-mini-project.mlflow')
 dagshub.init(repo_owner='pranaynikhare7', repo_name='mlops-mini-project', mlflow=True)
 
+mlflow.set_experiment("dvc-pipeline")
 
 # logging configuration
 logger = logging.getLogger('model_registration')
@@ -58,20 +59,24 @@ def load_model_info(file_path: str) -> dict:
 def register_model(model_name: str, model_info: dict):
     """Register the model to the MLflow Model Registry."""
     try:
-        model_uri = f"runs:/{model_info['run_id']}/{model_info['model_path']}"
+        run_id = model_info['run_id']
+        model_path = model_info['model_path']
+        model_uri = model_info['uri']
         
         # Register the model
-        model_version = mlflow.register_model(model_uri, model_name)
+        model_version = mlflow.register_model(model_uri, name = model_name)
         
         # Transition the model to "Staging" stage
         client = mlflow.tracking.MlflowClient()
         client.transition_model_version_stage(
             name=model_name,
             version=model_version.version,
-            stage="Staging"
+            stage="Staging",
+            archive_existing_versions=True
         )
         
         logger.debug(f'Model {model_name} version {model_version.version} registered and transitioned to Staging.')
+
     except Exception as e:
         logger.error('Error during model registration: %s', e)
         raise
@@ -80,12 +85,13 @@ def main():
     try:
         model_info_path = 'reports/experiment_info.json'
         model_info = load_model_info(model_info_path)
-        
-        model_name = "my_model"
+        model_name = "logreg-hp-model"
         register_model(model_name, model_info)
+
     except Exception as e:
         logger.error('Failed to complete the model registration process: %s', e)
         print(f"Error: {e}")
 
 if __name__ == '__main__':
     main()
+

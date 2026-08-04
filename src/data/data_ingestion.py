@@ -58,7 +58,14 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     try:
         df.drop(columns=['tweet_id'], inplace=True)
         final_df = df[df['sentiment'].isin(['happiness', 'sadness'])]
-        final_df['sentiment'].replace({'happiness': 1, 'sadness': 0}, inplace=True)
+        final_df["sentiment"] = (
+                                    final_df["sentiment"]
+                                    .replace({
+                                        "happiness":1,
+                                        "sadness":0
+                                    })
+                                    .astype(int)
+                                )
         logger.debug('Data preprocessing completed')
         return final_df
     except KeyError as e:

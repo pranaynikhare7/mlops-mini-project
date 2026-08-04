@@ -100,10 +100,14 @@ def save_metrics(metrics: dict, file_path: str) -> None:
         logger.error('Error occurred while saving the metrics: %s', e)
         raise
 
-def save_model_info(run_id: str, model_path: str, file_path: str) -> None:
+def save_model_info(run_id: str, uri: str, model_path: str, file_path: str) -> None:
     """Save the model run ID and path to a JSON file."""
     try:
-        model_info = {'run_id': run_id, 'model_path': model_path}
+        model_info = {
+                        'run_id': run_id, 
+                        'model_path': model_path,
+                        'uri': uri
+                    }
         with open(file_path, 'w') as file:
             json.dump(model_info, file, indent=4)
         logger.debug('Model info saved to %s', file_path)
@@ -121,7 +125,7 @@ def main():
             X_test = test_data.iloc[:, :-1].values
             y_test = test_data.iloc[:, -1].values
 
-            metrics = evaluate_model(clf, X_test, y_test)
+            metrics = evaluate_model(clf, X_test, y_test) 
             
             save_metrics(metrics, 'reports/metrics.json')
             
@@ -136,16 +140,21 @@ def main():
                     mlflow.log_param(param_name, param_value)
             
             # Log model to MLflow
-            mlflow.sklearn.log_model(clf, name = "model")
-            
+            model_info = mlflow.sklearn.log_model(clf, name = "model")
+            # mlflow.sklearn.log_model(
+            #     sk_model=clf,
+            #     name="sklearn-model",
+            #     registered_model_name="sk-learn-logreg-model"
+            # )
+                        
             # Save model info
-            save_model_info(run.info.run_id, "model", 'reports/experiment_info.json')
+            save_model_info(run.info.run_id, model_info.model_uri, "model", 'reports/experiment_info.json')
             
             # Log the metrics file to MLflow
             mlflow.log_artifact('reports/metrics.json')
 
             # Log the model info file to MLflow
-            mlflow.log_artifact('reports/model_info.json')
+            # mlflow.log_artifact('reports/model_info.json')
 
             # Log the evaluation errors log file to MLflow
             mlflow.log_artifact('model_evaluation_errors.log')
