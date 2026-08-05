@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sentiment Analysis</title>
+    </head>
+
+    <body>
+        <h1>Sentiment Analysis</h1>
+        <form action = "/predict", method = "POST">
+            <label>Write text:</label><br>
+            <textarea name = "text", rows="10", cols="50"></textarea><br>
+            <input type = "submit" value = "Predict"><br>
+        </form>
+
+        {% if result is not none %}
+            <h2>Prediction Result:</h2>
+
+            {% if result == 1 %}
+                <h2><p style="color:green;">Happy</p></h2>
+            {% else %}
+                <h2><p style="color:red;">Sad</p></h2>
+            {% endif %}
+        {% endif %}
+
+    </body>
+
+
+</html>

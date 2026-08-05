@@ -1,7 +1,8 @@
 import mlflow
-mlflow.set_tracking_uri('https://dagshub.com/pranaynikhare7/mlops-mini-project.mlflow')
-
 import dagshub
+
+
+mlflow.set_tracking_uri('https://dagshub.com/pranaynikhare7/mlops-mini-project.mlflow')
 dagshub.init(repo_owner='pranaynikhare7', repo_name='mlops-mini-project', mlflow=True)
 
 import mlflow
