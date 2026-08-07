@@ -1,4 +1,6 @@
 [core]
-    remote = myremote
-['remote "myremote"']
-    url = C:\Users\lenovo\AppData\Local\Temp
+    remote = storage
+['remote "storage"']
+    url = gdrive://1qqij6JQDBPKQoB58OqAOWqpb-5KIFVEs
+    gdrive_use_service_account = true
+    gdrive_service_account_json_file_path = C:\Users\lenovo\Downloads\mlops-dvc-504811-9229aca95456.json
