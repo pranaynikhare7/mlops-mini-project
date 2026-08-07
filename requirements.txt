@@ -8,6 +8,8 @@ nltk
 numpy
 xgboost
 flask
+dvc[s3]
+awscli
 
 # external requirements
 # click
