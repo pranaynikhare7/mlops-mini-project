@@ -97,7 +97,7 @@ hydra-core==1.3.5
 idna==3.18
 importlib_metadata==9.0.0
 ipykernel==7.3.0
-ipython==9.15.0
+# ipython==9.15.0
 ipython_pygments_lexers==1.1.1
 iterative-telemetry==0.0.10
 itsdangerous==2.2.0
