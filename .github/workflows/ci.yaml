@@ -124,7 +124,7 @@ jobs:
 
             docker stop campusx-app || true
             docker rm campusx-app || true
-            docker run -d -p 80:5000 -e DAGSHUB_PAT=${{ secrets.DAGSHUB_PAT }}--name campusx-app 932542906439.dkr.ecr.us-east-1.amazonaws.com/mini-project-ecr:latest
+            docker run -d -p 80:5000 -e DAGSHUB_PAT=${{ secrets.DAGSHUB_PAT }} --name campusx-app 932542906439.dkr.ecr.us-east-1.amazonaws.com/mini-project-ecr:latest
       
 
 
