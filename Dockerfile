@@ -54,7 +54,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Tell NLTK where its data is located
 ENV NLTK_DATA="/opt/nltk_data"
 
-# Application listens on port 5000
+# Application listens on port 5000 
 EXPOSE 5000
 
 # Start Flask application using Gunicorn
